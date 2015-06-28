@@ -9,12 +9,16 @@ var brValid = brasil.validacoes;
 module.exports = function loadPlugin(projectPath, Plugin) {
   var plugin = new Plugin(__dirname);
   // set plugin configs
-  // plugin.setConfigs({
-  // });
+  // plugin.setConfigs({});
   // ser plugin routes
-  // plugin.setRoutes({
-  // });
+  // plugin.setRoutes({});
 
+  plugin.setTemplates({
+    // helper para esconder ou exibir os campos de cpf ou passaporte
+    'forms/gov-br/brasileiro-seletor': __dirname + '/server/templates/forms/gov-br/brasileiro-seletor.hbs',
+    'forms/gov-br/cpf': __dirname + '/server/templates/forms/gov-br/cpf.hbs',
+    'forms/gov-br/passaporte': __dirname + '/server/templates/forms/gov-br/passaporte.hbs'
+  });
 
   // campos de cfp e passaporte
   plugin.hooks.on('we:models:before:instance', function (we, done) {
@@ -22,21 +26,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     if (!we.gov) we.gov = {};
     we.gov.br = brasil;
 
-    we.db.modelsConfigs.user.definition.brasileiro = {
-      type: we.db.Sequelize.BOOLEAN,
-      defaultValue: true,
-      validate: {
-        requerCpfOrPassport: function requerCpfOrPassport(val) {
-          if (val && !this.getDataValue('cpf')) {
-            // se for brasileiro, deve ter um cpf
-            throw new Error('user.cpf.required');
-          } else if(!val && !this.getDataValue('passaporte')) {
-            // se não for brasileiro deve ter um passaporte
-            throw new Error('user.passaporte.required');
-          }
-        }
-      }
-    }
     // o usuário deve preencher o CPF ou o Passaporte de acordo com a flag que diz se ele é brasileiro ou não
 
     // setando o campo de cpf
@@ -60,9 +49,39 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       validate: {}
     }
 
+    we.db.modelsConfigs.user.definition.estrangeiro = {
+      type: we.db.Sequelize.BOOLEAN,
+      defaultValue: false,
+      validate: {
+        requerCpfOrPassport: function requerCpfOrPassport(val) {
+          if (!val && !this.getDataValue('cpf')) {
+            // se for brasileiro, deve ter um cpf
+            throw new Error('user.cpf.required');
+          } else if(val && !this.getDataValue('passaporte')) {
+            // se não for brasileiro deve ter um passaporte
+            throw new Error('user.passaporte.required');
+          }
+        }
+      }
+    }
+
 
     done();
   });
+
+  plugin.events.on('we:after:load:forms', function (we) {
+    // extend core register form
+    we.form.forms.register.fields.cpf = {
+      type: 'gov-br/cpf'
+    }
+    we.form.forms.register.fields.passaporte = {
+      type: 'gov-br/passaporte'
+    }
+    we.form.forms.register.fields.estrangeiro = {
+      type: 'gov-br/brasileiro-seletor',
+      defaultValue: false
+    }
+   });
 
   return plugin;
 };

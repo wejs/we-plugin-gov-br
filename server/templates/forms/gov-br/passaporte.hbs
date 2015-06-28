@@ -1,0 +1,6 @@
+<div class="form-group {{#if error}}has-error has-feedback{{/if}}">
+  <label for="{{fieldId}}">{{t fieldName}} *</label>
+  <input id="{{fieldId}}" name="{{name}}" we-gov-br-vs="hide" type="text" class="form-control" placeholder="{{t placeholder}}" {{fieldAttrs}} value="{{value}}">
+  <p class="help-block">{{t help}}</p>
+  {{{field-help-error error}}}
+</div>

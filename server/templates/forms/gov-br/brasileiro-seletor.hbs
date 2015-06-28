@@ -1,0 +1,23 @@
+<div class="checkbox {{#if error}}has-error has-feedback{{/if}}">
+  <label>
+    <input id="{{fieldId}}" name="{{name}}" type="checkbox" {{fieldAttrs}}{{#if value}}checked="checked"{{/if}}> {{t fieldName}}
+  {{#ifCond field.allowNull false}}*{{/ifCond}}</label>
+  {{{field-help-error error}}}
+</div>
+<script>$(document).ready(function() {
+  var toggle = function toggleCpfFields(e) {
+    if(!e.checked) {
+      $('#{{formId}} input[we-gov-br-vs="show"]').parent().show();
+      $('#{{formId}} input[we-gov-br-vs="hide"]').parent().hide();
+    } else {
+      $('#{{formId}} input[we-gov-br-vs="show"]').parent().hide();
+      $('#{{formId}} input[we-gov-br-vs="hide"]').parent().show();
+    }
+  }
+
+  toggle($('#{{fieldId}}')[0]);
+  $('#{{fieldId}}').change(function (e) {
+    toggle(this);
+  });
+});</script>
+{{log values}}
