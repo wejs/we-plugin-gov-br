@@ -1,5 +1,5 @@
 /**
- * Plugin.js file, set configs, routes, hooks and events here
+ * Plugin do we.js com recursos para projetos brasileiros
  *
  * see http://wejs.org/docs/we/extend.plugin
  */
@@ -10,7 +10,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   var plugin = new Plugin(__dirname);
   // set plugin configs
   // plugin.setConfigs({});
-  // ser plugin routes
+  // set plugin routes
   // plugin.setRoutes({});
 
   plugin.setTemplates({
@@ -83,6 +83,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
 
   plugin.events.on('we:after:load:forms', function (we) {
+
+    we.form.forms.register.fields.cep = {
+      type: 'gov-br/cep'
+    }
     // extend core register form
     we.form.forms.register.fields.cpf = {
       type: 'gov-br/cpf'
@@ -95,9 +99,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       defaultValue: false
     }
 
-   we.form.forms.register.fields.cep = {
-      type: 'gov-br/cep'
-    }
    });
 
   return plugin;
