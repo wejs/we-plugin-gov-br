@@ -17,7 +17,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     // helper para esconder ou exibir os campos de cpf ou passaporte
     'forms/gov-br/brasileiro-seletor': __dirname + '/server/templates/forms/gov-br/brasileiro-seletor.hbs',
     'forms/gov-br/cpf': __dirname + '/server/templates/forms/gov-br/cpf.hbs',
-    'forms/gov-br/passaporte': __dirname + '/server/templates/forms/gov-br/passaporte.hbs'
+    'forms/gov-br/passaporte': __dirname + '/server/templates/forms/gov-br/passaporte.hbs',
+    'forms/gov-br/cep': __dirname + '/server/templates/forms/gov-br/cep.hbs'
   });
 
   // campos de cfp e passaporte
@@ -34,7 +35,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       unique: true,
       set: function onSetCPF(val) {
         // remove a mascara de cpf ao setar o valor
-        this.setDataValue('cpf', brasil.formatacoes.removerMascara(val) );
+        this.setDataValue('cpf', brasil.formatacoes.removerMascara(val));
       },
       validate: {
         cpfIsValid: function cpfIsValid(val) {
@@ -64,7 +65,19 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         }
       }
     }
-
+    // cep field
+    we.db.modelsConfigs.user.definition.cep = {
+      type: we.db.Sequelize.STRING(8),
+      set: function onSetCep(val) {
+        // remove a mascara do campo
+        this.setDataValue('cep', brasil.formatacoes.removerMascara(val));
+      },
+      validate: {
+        cepValidation: function cepValidation(val) {
+          if (!brValid.eCep(val)) throw new Error('user.cep.invalid');
+        }
+      }
+    }
 
     done();
   });
@@ -80,6 +93,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     we.form.forms.register.fields.estrangeiro = {
       type: 'gov-br/brasileiro-seletor',
       defaultValue: false
+    }
+
+   we.form.forms.register.fields.cep = {
+      type: 'gov-br/cep'
     }
    });
 
