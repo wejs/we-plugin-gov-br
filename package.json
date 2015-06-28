@@ -29,5 +29,9 @@
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wejs/we-plugin-gov-br.git"
+  }
 }
