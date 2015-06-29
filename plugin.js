@@ -34,8 +34,12 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       type: we.db.Sequelize.STRING(11),
       unique: true,
       set: function onSetCPF(val) {
-        // remove a mascara de cpf ao setar o valor
-        this.setDataValue('cpf', brasil.formatacoes.removerMascara(val));
+        if (val) {
+          // remove a mascara de cpf ao setar o valor
+          this.setDataValue('cpf', brasil.formatacoes.removerMascara(val));
+        } else {
+          this.setDataValue('cpf', null);
+        }
       },
       validate: {
         cpfIsValid: function cpfIsValid(val) {
@@ -54,7 +58,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         } else {
           this.setDataValue('passaporte', null);
         }
-      },
+      }
     }
 
     we.db.modelsConfigs.user.definition.estrangeiro = {
