@@ -47,7 +47,14 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     we.db.modelsConfigs.user.definition.passaporte = {
       type: we.db.Sequelize.STRING,
       unique: true,
-      validate: {}
+      validate: {},
+      set: function onSetPassport(val) {
+        if (val) {
+          this.setDataValue('passaporte', val);
+        } else {
+          this.setDataValue('passaporte', null);
+        }
+      },
     }
 
     we.db.modelsConfigs.user.definition.estrangeiro = {
