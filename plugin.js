@@ -66,12 +66,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       defaultValue: false,
       validate: {
         requerCpfOrPassport: function requerCpfOrPassport(val) {
-          if (!val && !this.getDataValue('cpf')) {
-            // se for brasileiro, deve ter um cpf
-            throw new Error('user.cpf.required');
-          } else if(val && !this.getDataValue('passaporte')) {
-            // se não for brasileiro deve ter um passaporte
-            throw new Error('user.passaporte.required');
+          if (!val || !String.trim(val)) {
+            if (!this.getDataValue('cpf')) {
+              // se for brasileiro, deve ter um cpf
+              throw new Error('user.cpf.required');
+            }
+          } else {
+            if (!this.getDataValue('passaporte') ) {
+              // se não for brasileiro deve ter um passaporte
+              throw new Error('user.passaporte.required');
+            }
           }
         }
       }
@@ -85,7 +89,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       },
       validate: {
         cepValidation: function cepValidation(val) {
-          if (!brValid.eCep(val)) throw new Error('user.cep.invalid');
+          if (val && String.trim(val) && !brValid.eCep(val)) {
+            throw new Error('user.cep.invalid');
+          }
         }
       }
     }
@@ -94,21 +100,27 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
 
   plugin.events.on('we:after:load:forms', function (we) {
-
-    we.form.forms.register.fields.cep = {
-      type: 'gov-br/cep'
-    }
     // extend core register form
-    we.form.forms.register.fields.cpf = {
-      type: 'gov-br/cpf'
-    }
-    we.form.forms.register.fields.passaporte = {
-      type: 'gov-br/passaporte'
-    }
-    we.form.forms.register.fields.estrangeiro = {
-      type: 'gov-br/brasileiro-seletor',
-      defaultValue: false
-    }
+    if (we.form.forms.register.fields.cep !== null)
+      we.form.forms.register.fields.cep = {
+        type: 'gov-br/cep'
+      }
+
+    if (we.form.forms.register.fields.cpf !== null)
+      we.form.forms.register.fields.cpf = {
+        type: 'gov-br/cpf'
+      }
+
+    if (we.form.forms.register.fields.passaporte !== null)
+      we.form.forms.register.fields.passaporte = {
+        type: 'gov-br/passaporte'
+      }
+
+    if (we.form.forms.register.fields.estrangeiro !== null)
+      we.form.forms.register.fields.estrangeiro = {
+        type: 'gov-br/brasileiro-seletor',
+        defaultValue: false
+      }
 
    });
 
