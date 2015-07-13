@@ -33,6 +33,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     we.db.modelsConfigs.user.definition.cpf = {
       type: we.db.Sequelize.STRING(11),
       unique: true,
+      formFieldType: 'gov-br/cpf',
       set: function onSetCPF(val) {
         if (val) {
           // remove a mascara de cpf ao setar o valor
@@ -52,6 +53,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       type: we.db.Sequelize.STRING,
       unique: true,
       validate: {},
+      formFieldType: 'gov-br/passaporte',
       set: function onSetPassport(val) {
         if (val) {
           this.setDataValue('passaporte', val);
@@ -64,6 +66,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     we.db.modelsConfigs.user.definition.estrangeiro = {
       type: we.db.Sequelize.BOOLEAN,
       defaultValue: false,
+      formFieldType: 'gov-br/brasileiro-seletor',
       validate: {
         requerCpfOrPassport: function requerCpfOrPassport(val) {
           if (!val || !String.trim(val)) {
@@ -83,6 +86,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     // cep field
     we.db.modelsConfigs.user.definition.cep = {
       type: we.db.Sequelize.STRING(8),
+      formFieldType: 'gov-br/cep',
       set: function onSetCep(val) {
         // remove a mascara do campo
         this.setDataValue('cep', brasil.formatacoes.removerMascara(val));
