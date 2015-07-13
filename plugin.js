@@ -5,6 +5,7 @@
  */
 var brasil = require('brasil');
 var brValid = brasil.validacoes;
+var _ = require('lodash');
 
 module.exports = function loadPlugin(projectPath, Plugin) {
   var plugin = new Plugin(__dirname);
@@ -69,7 +70,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       formFieldType: 'gov-br/brasileiro-seletor',
       validate: {
         requerCpfOrPassport: function requerCpfOrPassport(val) {
-          if (!val || !String.trim(val)) {
+          if (!val || !_.trim(val)) {
             if (!this.getDataValue('cpf')) {
               // se for brasileiro, deve ter um cpf
               throw new Error('user.cpf.required');
@@ -93,7 +94,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       },
       validate: {
         cepValidation: function cepValidation(val) {
-          if (val && String.trim(val) && !brValid.eCep(val)) {
+          if (val && _.trim(val) && !brValid.eCep(val)) {
             throw new Error('user.cep.invalid');
           }
         }
