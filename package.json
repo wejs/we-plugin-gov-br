@@ -1,7 +1,7 @@
 {
   "name": "we-plugin-gov-br",
   "description": "We.js we-plugin-gov-br plugin",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "main": "lib/index.js",
   "scripts": {
     "lint": "./node_modules/.bin/jshint .",
@@ -9,9 +9,7 @@
     "prepublish": "npm prune"
   },
   "dependencies": {
-    "async": "^1.2.0",
-    "brasil": "0.0.38",
-    "lodash": "^3.9.3"
+    "brasil": "0.0.38"
   },
   "devDependencies": {
     "fs-extra": "^0.18.2",
@@ -20,7 +18,7 @@
     "mocha": "^2.2.5",
     "rimraf": "^2.3.4",
     "supertest": "^1.0.1",
-    "we-core": "^0.3.35",
+    "we-core": "wejs/we-core",
     "we-plugin-form": "^0.3.1",
     "we-theme-admin-default": "^0.3.4",
     "we-theme-site-wejs": "^0.3.13",
