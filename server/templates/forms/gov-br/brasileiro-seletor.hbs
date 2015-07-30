@@ -1,10 +1,20 @@
 <div class="checkbox {{#if error}}has-error has-feedback{{/if}}">
   <label>
-    <input id="{{fieldId}}" name="{{name}}" type="checkbox" {{fieldAttrs}}{{#if value}}checked="checked"{{/if}}> {{t fieldName}}
-  {{#ifCond field.allowNull false}}*{{/ifCond}}</label>
+    <input id="{{fieldId}}-selector" value="1" type="checkbox" {{fieldAttrs}}{{#if value}}checked="checked"{{/if}}>
+    {{t fieldName}} {{#ifCond field.allowNull false}}*{{/ifCond}}
+  </label>
+  <input id="{{fieldId}}" type="hidden" name="{{name}}" value="{{value}}">
   {{{field-help-error error}}}
 </div>
 <script>$(document).ready(function() {
+  $("#{{fieldId}}-selector").change(function() {
+    if (this.checked) {
+      $('#{{fieldId}}').val(1);
+    } else {
+      $('#{{fieldId}}').val(0);
+    }
+  });
+
   var toggle = function toggleCpfFields(e) {
     if(!e.checked) {
       $('#{{formId}} input[we-gov-br-vs="show"]').parent().show();
@@ -15,8 +25,8 @@
     }
   }
 
-  toggle($('#{{fieldId}}')[0]);
-  $('#{{fieldId}}').change(function (e) {
+  toggle($('#{{fieldId}}-selector')[0]);
+  $('#{{fieldId}}-selector').change(function (e) {
     toggle(this);
   });
 });</script>
