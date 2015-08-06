@@ -67,6 +67,12 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       type: we.db.Sequelize.BOOLEAN,
       defaultValue: false,
       formFieldType: 'gov-br/brasileiro-seletor',
+      set: function(val) {
+        if (!val) this.setDataValue('estrangeiro', null);
+        if ( Number(val) )
+          this.setDataValue('estrangeiro', Number(val) );
+        this.setDataValue('estrangeiro', null);
+      },
       validate: {
         requerCpfOrPassport: function requerCpfOrPassport(val) {
           if (!val || !we.utils._.trim(val)) {
