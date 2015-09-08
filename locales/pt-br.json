@@ -1,0 +1,8 @@
+{
+  "form-register-cpf": "CPF",
+  "form-placeholder-register-cpf": "Digite o CPF aqui...",
+  "form-helper-register-cpf": " ",
+  "form-register-estrangeiro": "Você não possuí um CPF?",
+  "form-placeholder-register-estrangeiro": " ",
+  "form-helper-register-estrangeiro": " "
+}
