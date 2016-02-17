@@ -13,14 +13,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   // set plugin routes
   // plugin.setRoutes({});
 
-  plugin.setTemplates({
-    // helper para esconder ou exibir os campos de cpf ou passaporte
-    'forms/gov-br/brasileiro-seletor': __dirname + '/server/templates/forms/gov-br/brasileiro-seletor.hbs',
-    'forms/gov-br/cpf': __dirname + '/server/templates/forms/gov-br/cpf.hbs',
-    'forms/gov-br/passaporte': __dirname + '/server/templates/forms/gov-br/passaporte.hbs',
-    'forms/gov-br/cep': __dirname + '/server/templates/forms/gov-br/cep.hbs'
-  });
-
   // campos de cfp e passaporte
   plugin.hooks.on('we:models:before:instance', function (we, done) {
 
