@@ -1,14 +1,11 @@
 # we-plugin-gov-br
 
-> [write something about your plugin here]
-
-# API
-
+We.js plugin with brazilian governament features
 
 ## Links
 
 > * We.js site: http://wejs.org
 
-#Copyright and license
+## License
 
-Copyright 2013-2015 [your name] <[your email@email]> and contributors , under [the MIT license](LICENSE).
+Under [the MIT license](https://github.com/wejs/we-core/blob/master/LICENSE.md)
