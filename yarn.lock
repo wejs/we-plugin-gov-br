@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-brasil@1.0.0-security:
-  version "1.0.0-security"
-  resolved "https://registry.yarnpkg.com/brasil/-/brasil-1.0.0-security.tgz#06e2207de4c36295523e871aa188106e8da67980"
-  integrity sha512-PAfpuUggJikQHybRl7n0tjoW0Sa/lzqVGveRgaWHbXp7U7GETNcWRTmzaw6LApx5sD95Dj9A+thBeyAHRymjOA==
+cpf@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/cpf/-/cpf-2.0.1.tgz#7979eb33f0a14e8217292944311faaba82cb7f02"
+  integrity sha512-YpRbrpjQCDkZgMUOLxLfme8wE8X56fHXOGMGDsYA48f7UrjaCHU0TP8d+CKmxvNVjBDVtHiCUiBw8vfstdslbw==

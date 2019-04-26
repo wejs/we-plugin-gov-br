@@ -3,16 +3,11 @@
  *
  * see http://wejs.org/docs/we/extend.plugin
  */
-var brasil = require('brasil');
-var brValid = brasil.validacoes;
+
+const brasil = require('./lib/index.js').brasil;
 
 module.exports = function loadPlugin(projectPath, Plugin) {
-  var plugin = new Plugin(__dirname);
-  // set plugin configs
-  // plugin.setConfigs({});
-  // set plugin routes
-  // plugin.setRoutes({});
-
+  const plugin = new Plugin(__dirname);
   // campos de cfp e passaporte
   plugin.hooks.on('we:models:before:instance', function (we, done) {
 
@@ -26,17 +21,17 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       type: we.db.Sequelize.STRING(11),
       unique: true,
       formFieldType: 'gov-br/cpf',
-      set: function onSetCPF(val) {
+      set(val) {
         if (val) {
           // remove a mascara de cpf ao setar o valor
-          this.setDataValue('cpf', brasil.formatacoes.removerMascara(val));
+          this.setDataValue('cpf', brasil.removeMask(val));
         } else {
           this.setDataValue('cpf', null);
         }
       },
       validate: {
-        cpfIsValid: function cpfIsValid(val) {
-          if (val && !brValid.eCpf(val)) throw new Error('user.cpf.invalid');
+        cpfIsValid(val) {
+          if (val && !brasil.CPF.isValid(val)) throw new Error('user.cpf.invalid');
         }
       }
     }
@@ -46,7 +41,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       unique: true,
       validate: {},
       formFieldType: 'gov-br/passaporte',
-      set: function onSetPassport(val) {
+      set(val) {
         if (val) {
           this.setDataValue('passaporte', val);
         } else {
@@ -59,14 +54,14 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       type: we.db.Sequelize.BOOLEAN,
       defaultValue: false,
       formFieldType: 'gov-br/brasileiro-seletor',
-      set: function(val) {
+      set(val) {
         if (!val) this.setDataValue('estrangeiro', null);
         if ( Number(val) )
           this.setDataValue('estrangeiro', Number(val) );
         this.setDataValue('estrangeiro', null);
       },
       validate: {
-        requerCpfOrPassport: function requerCpfOrPassport(val) {
+        requerCpfOrPassport(val) {
           if (!val || !we.utils._.trim(val)) {
             if (!this.getDataValue('cpf')) {
               // se for brasileiro, deve ter um cpf
@@ -85,13 +80,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     we.db.modelsConfigs.user.definition.cep = {
       type: we.db.Sequelize.STRING(8),
       formFieldType: 'gov-br/cep',
-      set: function onSetCep(val) {
+      set(val) {
         // remove a mascara do campo
-        this.setDataValue('cep', brasil.formatacoes.removerMascara(val));
+        this.setDataValue('cep', brasil.removeMask(val));
       },
       validate: {
-        cepValidation: function cepValidation(val) {
-          if (val && we.utils._.trim(val) && !brValid.eCep(val)) {
+        cepValidation(val) {
+          if (val && we.utils._.trim(val) && !brasil.CEP.isValid(val)) {
             throw new Error('user.cep.invalid');
           }
         }
