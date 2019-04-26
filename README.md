@@ -14,6 +14,10 @@ we i we-plugin-gov-br
 
 - We.js site: http://wejs.org
 
+## Sponsors
+
+- Linky - https://linkysystems.com
+
 ## License
 
 Under [the MIT license](https://github.com/wejs/we-core/blob/master/LICENSE.md)
